@@ -28,16 +28,6 @@ lazy val singleton_ops = crossProject
   .in(file("."))
   .settings(commonSettings)
   .settings(publishSettings)
-  .settings(
-    libraryDependencies ++= Seq(
-      scalaOrganization.value % "scala-compiler" % scalaVersion.value,
-      "org.typelevel" %%% "macro-compat" % macroCompatVersion,
-      compilerPlugin(
-        "org.scalamacros" % "paradise" % macroParadiseVersion cross CrossVersion.patch),
-      "com.chuusai" %%% "shapeless" % shapelessVersion,
-      "org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test
-    )
-  )
   .jsSettings(
     coverageEnabled := false
   )
