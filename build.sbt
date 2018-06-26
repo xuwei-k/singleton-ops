@@ -82,7 +82,9 @@ lazy val compileSettings = Def.settings(
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v >= 13 =>
-        Nil
+        Seq(
+          "-Ymacro-annotations"
+        )
       case _ =>
         Seq(
           "-Yno-adapted-args",
@@ -96,16 +98,9 @@ lazy val compileSettings = Def.settings(
   libraryDependencies ++= Seq(
     scalaOrganization.value % "scala-compiler" % scalaVersion.value,
     "org.typelevel" %%% "macro-compat" % macroCompatVersion,
+    "org.scalacheck" %%% "scalacheck" % scalaCheckVersion,
     "com.chuusai" %%% "shapeless" % shapelessVersion
   ),
-  libraryDependencies ++= {
-    // TODO https://github.com/rickynils/scalacheck/issues/410
-    if (scalaVersion.value != "2.13.0-M4") {
-      Seq("org.scalacheck" %%% "scalacheck" % scalaCheckVersion % Test)
-    } else {
-      Nil
-    }
-  },
   libraryDependencies ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       // if scala 2.13+ is used, macro annotations are merged into scala-reflect
